@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Ti ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    background:linear-gradient(135deg,#f9ecef,#f4d9e0,#f7e1e7,#f9ecef);
+    background-size:400% 400%;
+    animation:fondoRomantico 15s ease infinite;
+    font-family:'Poppins',sans-serif;
+    color:#3a3a3a;
+    overflow-x:hidden;
+}
+
+@keyframes fondoRomantico{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* INTRO */
+#intro{
+    position:fixed;
+    width:100%;
+    height:100vh;
+    background:#0f0f0f;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:9999;
+    transition:opacity 1.8s ease;
+}
+
+#intro h1{
+    font-family:'Montserrat',sans-serif;
+    font-weight:300;
+    letter-spacing:8px;
+    font-size:26px;
+}
+
+#intro span{
+    margin-top:20px;
+    font-size:13px;
+    letter-spacing:3px;
+    opacity:0.7;
+}
+
+.hidden{
+    opacity:0;
+    pointer-events:none;
+}
+
+section{
+    padding:60px 18px;
+    text-align:center;
+    animation:fadeIn 1.8s ease;
+}
+
+h1{
+    font-family:'Montserrat',sans-serif;
+    font-weight:600;
+    font-size:34px;
+}
+
+.carta{
+    max-width:700px;
+    margin:auto;
+    font-size:19px;
+    line-height:2;
+    margin-top:30px;
+    min-height:140px;
+    font-weight:300;
+}
+
+button{
+    padding:15px 40px;
+    background:#c77d8b;
+    border:none;
+    border-radius:40px;
+    color:white;
+    font-size:15px;
+    letter-spacing:1px;
+    cursor:pointer;
+    transition:0.4s;
+}
+
+button:hover{
+    transform:scale(1.06);
+    background:#b56576;
+}
+
+.contador{
+    font-size:20px;
+    margin-top:20px;
+    font-weight:300;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(25px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* Rosas */
+.petalo{
+    position:fixed;
+    top:-10px;
+    font-size:22px;
+    opacity:0.75;
+    animation:caer linear infinite;
+}
+
+@keyframes caer{
+    0%{transform:translateY(0) rotate(0);}
+    100%{transform:translateY(110vh) rotate(360deg);}
+}
+
+/* Responsive */
+@media(max-width:480px){
+    h1{font-size:26px;}
+    .carta{font-size:17px; line-height:1.9;}
+    section{padding:50px 15px;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Intro -->
+<div id="intro">
+    <h1>17 · 03 · 2025</h1>
+    <span>Nuestra historia comenzó aquí</span>
+</div>
+
+<!-- Música -->
+<audio id="musica" src="cancion.mp3" preload="auto"></audio>
+
+<section>
+<h1>Para la persona que cambió mi vida ❤️</h1>
+<button onclick="iniciarExperiencia()">Descubre lo que siento</button>
+</section>
+
+<section id="seccionCarta">
+<div class="carta" id="textoCarta"></div>
+</section>
+
+<section>
+<h1>Nuestra historia ✨</h1>
+<div class="contador" id="contador"></div>
+</section>
+
+<script>
+
+/* Intro */
+setTimeout(()=>{
+    document.getElementById("intro").classList.add("hidden");
+},3000);
+
+/* Carta */
+const cartaTexto = "Desde el 17 de marzo de 2025 comenzó algo que no imaginaba que se volvería tan especial. Poco a poco te convertiste en esa persona que ilumina mis días sin siquiera intentarlo. Tu ternura, la manera en que cuidas los pequeños detalles y la delicadeza con la que haces que todo se sienta especial, transforman mi mundo en algo más cálido y más hermoso. A tu lado todo se siente más ligero, más auténtico, más verdadero. Me inspiras, me das calma y me haces sentir profundamente afortunado. Amo cada momento compartido hasta la fecha y deseo que sean muchos más.";
+
+let i = 0;
+
+function escribirCarta(){
+    const elemento = document.getElementById("textoCarta");
+    if(i < cartaTexto.length){
+        elemento.innerHTML += cartaTexto.charAt(i);
+        i++;
+        setTimeout(escribirCarta, 45);
+    }
+}
+
+/* Iniciar experiencia */
+function iniciarExperiencia(){
+    document.getElementById("musica").play();
+    document.getElementById("seccionCarta").scrollIntoView({behavior:"smooth"});
+    escribirCarta();
+}
+
+/* Contador meses y días */
+const fechaInicio = new Date("March 17, 2025 00:00:00");
+const contador = document.getElementById("contador");
+
+function calcularTiempo(){
+    const ahora = new Date();
+
+    let años = ahora.getFullYear() - fechaInicio.getFullYear();
+    let meses = ahora.getMonth() - fechaInicio.getMonth();
+    let dias = ahora.getDate() - fechaInicio.getDate();
+
+    if(dias < 0){
+        meses--;
+        dias += new Date(ahora.getFullYear(), ahora.getMonth(), 0).getDate();
+    }
+
+    if(meses < 0){
+        años--;
+        meses += 12;
+    }
+
+    const totalMeses = años * 12 + meses;
+
+    contador.innerHTML = `Han pasado ${totalMeses} meses y ${dias} días desde que empezó nuestra historia 💖`;
+}
+
+setInterval(calcularTiempo,1000);
+
+/* Rosas cayendo */
+function crearPetalo(){
+    const petalo = document.createElement("div");
+    petalo.classList.add("petalo");
+    petalo.innerHTML = "🌹";
+    petalo.style.left = Math.random()*100 + "vw";
+    petalo.style.animationDuration = (Math.random()*5 + 6) + "s";
+    document.body.appendChild(petalo);
+
+    setTimeout(()=>{
+        petalo.remove();
+    },11000);
+}
+
+setInterval(crearPetalo, 700);
+
+</script>
+
+</body>
+</html>
+
